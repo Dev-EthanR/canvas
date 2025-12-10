@@ -21,7 +21,7 @@ const player = new Player(
   playerState.size,
   playerState.color
 );
-player.update();
+player.update(c);
 window.addEventListener("keydown", (e) => {
   keys[e.code] = true;
 });
@@ -33,7 +33,7 @@ function animate(currentTime) {
   c.clearRect(0, 0, canvas.width, canvas.height);
   const delta = getDeltaTime(currentTime);
   playerMovement(player, playerState.speed, delta);
-  player.update();
+  player.update(c);
 
   requestAnimationFrame(animate);
 }
