@@ -60,7 +60,7 @@ const fpsLoop = (timestamp) => {
   }
   times.push(timestamp);
   fps = times.length;
-  console.log(fps);
+  document.getElementById("fps").textContent = fps;
   requestAnimationFrame(fpsLoop);
 };
 requestAnimationFrame(fpsLoop);
