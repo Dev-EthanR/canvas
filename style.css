@@ -1,19 +1,21 @@
+@import "tailwindcss";
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
   background-color: darkgrey;
 }
 canvas {
-  background-color: rgb(136, 201, 136);
   position: absolute;
   top: 0;
   bottom: 0;
   z-index: -1;
+}
+
+p {
+  padding: 1rem;
 }

@@ -31,36 +31,32 @@ window.addEventListener("keyup", (e) => {
   keys[e.code] = false;
 });
 
-function animate() {
+let lastTime = 0;
+function animate(currentTime) {
+  const deltaTime = (currentTime - lastTime) / 1000;
+  lastTime = currentTime;
   c.clearRect(0, 0, canvas.width, canvas.height);
   if (keys["KeyW"]) {
-    player.y -= speed;
+    player.y -= speed * deltaTime;
   }
 
   if (keys["KeyS"]) {
-    player.y += speed;
+    player.y += speed * deltaTime;
   }
   if (keys["KeyD"]) {
-    player.x += speed;
+    player.x += speed * deltaTime;
   }
   if (keys["KeyA"]) {
-    player.x -= speed;
+    player.x -= speed * deltaTime;
   }
   player.update();
+
   requestAnimationFrame(animate);
 }
 
-animate();
+animate(0);
 
-let fps = 1;
-const times = [];
 const fpsLoop = (timestamp) => {
-  while (times.length > 0 && times[0] <= timestamp - 1000) {
-    times.shift();
-  }
-  times.push(timestamp);
-  fps = times.length;
-  document.getElementById("fps").textContent = fps;
   requestAnimationFrame(fpsLoop);
 };
 requestAnimationFrame(fpsLoop);
