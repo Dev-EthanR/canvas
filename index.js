@@ -1,28 +1,26 @@
+import getDeltaTime from "../util/deltaTime.js";
+import Player from "./myClass/Player.js";
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const c = canvas.getContext("2d");
 
-class Player {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
+const playerState = {
+  speed: 100,
+  defaultSpawnX: 100,
+  defaultSpawnY: canvas.height / 2,
+  size: 30,
+  color: "blue",
+};
 
-  draw = () => {
-    c.beginPath();
-    c.arc(this.x, this.y, 30, 0, Math.PI * 2, false);
-    c.strokeStyle = "blue"; // Set stroke color
-    c.stroke();
-  };
-  update = () => {
-    this.draw();
-  };
-}
 const keys = {};
-const speed = 100;
-const player = new Player(200, 100);
+const player = new Player(
+  playerState.defaultSpawnX,
+  playerState.defaultSpawnY,
+  playerState.size,
+  playerState.color
+);
 player.update();
 window.addEventListener("keydown", (e) => {
   keys[e.code] = true;
@@ -31,11 +29,24 @@ window.addEventListener("keyup", (e) => {
   keys[e.code] = false;
 });
 
-let lastTime = 0;
 function animate(currentTime) {
-  const deltaTime = (currentTime - lastTime) / 1000;
-  lastTime = currentTime;
   c.clearRect(0, 0, canvas.width, canvas.height);
+  const delta = getDeltaTime(currentTime);
+  playerMovement(player, playerState.speed, delta);
+  player.update();
+
+  requestAnimationFrame(animate);
+}
+
+animate(0);
+
+/**
+ * @param {player} - Player Object
+ * @param {speed} - Speed the player moves
+ * @param {deltaTime} - DeltaTime
+ */
+
+function playerMovement(player, speed, deltaTime) {
   if (keys["KeyW"]) {
     player.y -= speed * deltaTime;
   }
@@ -49,14 +60,4 @@ function animate(currentTime) {
   if (keys["KeyA"]) {
     player.x -= speed * deltaTime;
   }
-  player.update();
-
-  requestAnimationFrame(animate);
 }
-
-animate(0);
-
-const fpsLoop = (timestamp) => {
-  requestAnimationFrame(fpsLoop);
-};
-requestAnimationFrame(fpsLoop);
