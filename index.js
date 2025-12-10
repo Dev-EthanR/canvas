@@ -21,7 +21,7 @@ class Player {
   };
 }
 const keys = {};
-const speed = 2;
+const speed = 100;
 const player = new Player(200, 100);
 player.update();
 window.addEventListener("keydown", (e) => {
